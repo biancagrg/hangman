@@ -1,5 +1,7 @@
 var word = ["M", "A", "R", "I", "A", "N", "E"];
 var hiddenWord = document.getElementById("word");
+var hangman = document.getElementById("counter");
+var counter = 0;
 
 function secretWord(word) {
   for (var i = 0; i < word.length; i++) {
@@ -27,7 +29,14 @@ function initEvents() {
     if (checkLetter(letterId)) {
       console.log(letterId);
       revealLetter(letterId);
+    } else if (counter < 7) {
+      counter++;
+    } else {
+      counter = 0;
+      hiddenWord.innerHTML = "";
+      secretWord(word);
     }
+    hangman.innerText = counter;
   });
 }
 
