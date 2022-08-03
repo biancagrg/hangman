@@ -10,11 +10,34 @@ function secretWord(word) {
 secretWord(word);
 
 function revealLetter(correctLetter) {
-  var letter = document.getElementsByName(correctLetter);
+  console.log("hier");
+  var letter = document.getElementsByName(`hidden-${correctLetter}`);
+  console.log(letter[0]);
   for (var i = 0; i < letter.length; i++) {
+    console.log("muuuu");
     letter[i].classList.remove("hiddenLetter");
     letter[i].classList.add("revealedLetter");
   }
 }
 
-// revealLetter("hidden-A");
+function initEvents() {
+  document.getElementById("letters").addEventListener("click", function (e) {
+    var letterId = e.target.getAttribute("id");
+    console.log("aici");
+    if (checkLetter(letterId)) {
+      console.log(letterId);
+      revealLetter(letterId);
+    }
+  });
+}
+
+function checkLetter(id) {
+  for (var i = 0; i < word.length; i++) {
+    if (word[i] == id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+initEvents();
