@@ -1,4 +1,4 @@
-var word = ["M", "A", "R", "I", "A", "N", "E"];
+var word;
 var hiddenWord = document.getElementById("word");
 var hangman = document.getElementById("counter");
 var counter = 0;
@@ -8,8 +8,6 @@ function secretWord(word) {
     hiddenWord.innerHTML += `<div class="hiddenLetter" name="hidden-${word[i]}">${word[i]}</div>`;
   }
 }
-
-secretWord(word);
 
 function revealLetter(correctLetter) {
   console.log("hier");
@@ -50,3 +48,19 @@ function checkLetter(id) {
 }
 
 initEvents();
+
+function loadWord() {
+  fetch("words.json")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (result) {
+      word =
+        result[0].words[
+          Math.floor(Math.random() * result[0].words.length)
+        ].split("");
+      secretWord(word);
+    });
+}
+
+loadWord();
