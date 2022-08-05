@@ -102,6 +102,7 @@ header {
   border-radius: 0.2rem;
   color: #fff;
   background-color: rgb(37, 34, 34);
+  border: none;
 }
 
 #upper-row {
