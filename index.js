@@ -3,6 +3,7 @@ var word;
 var hiddenWord = document.getElementById("word");
 var hangman = document.getElementById("counter");
 var counter = 0;
+hangman.innerHTML = counter;
 var chosenLetterString = "";
 var correctLetterCounter = 0;
 
@@ -25,27 +26,26 @@ function revealLetter(correctLetter) {
 function initEvents() {
   document.getElementById("letters").addEventListener("click", function (e) {
     var letterId = e.target.getAttribute("id");
-    document.getElementById(letterId).classList.remove("keyboard");
-    document.getElementById(letterId).classList.add("chosenLetter");
-    chosenLetterString += letterId;
-    if (checkLetter(letterId)) {
-      revealLetter(letterId);
-      if (correctLetterCounter === word.length) {
-        hiddenWord.innerHTML = "";
-        secretWord();
-        resetLetters();
-        counter = 0;
-        correctLetterCounter = 0;
+    if (letterId.length === 1) {
+      document.getElementById(letterId).classList.remove("keyboard");
+      document.getElementById(letterId).classList.add("chosenLetter");
+      chosenLetterString += letterId;
+      if (checkLetter(letterId)) {
+        revealLetter(letterId);
+        if (correctLetterCounter === word.length) {
+          resetGame();
+        }
+      } else if (counter < 7) {
+        counter++;
+        hangman.innerText = counter;
+      } else {
+        resetGame();
       }
-    } else if (counter < 7) {
-      counter++;
-    } else {
-      counter = 0;
-      hiddenWord.innerHTML = "";
-      resetLetters();
-      secretWord();
     }
-    hangman.innerText = counter;
+  });
+
+  document.getElementById("new-game").addEventListener("click", function (e) {
+    resetGame();
   });
 }
 
@@ -81,4 +81,14 @@ function resetLetters() {
     document.getElementById(chosenLetterString[i]).classList.add("keyboard");
   }
 }
+
+function resetGame() {
+  hiddenWord.innerHTML = "";
+  secretWord();
+  resetLetters();
+  counter = 0;
+  hangman.innerText = counter;
+  correctLetterCounter = 0;
+}
+
 loadWord();
