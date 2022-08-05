@@ -33,13 +33,14 @@ function initEvents() {
       if (checkLetter(letterId)) {
         revealLetter(letterId);
         if (correctLetterCounter === word.length) {
-          resetGame();
+          document.getElementById("message").innerHTML =
+            "Congratulations! You won!";
         }
       } else if (counter < 7) {
         counter++;
         hangman.innerText = counter;
       } else {
-        resetGame();
+        document.getElementById("message").innerHTML = "You lost! Try again!";
       }
     }
   });
@@ -89,6 +90,7 @@ function resetGame() {
   counter = 0;
   hangman.innerText = counter;
   correctLetterCounter = 0;
+  document.getElementById("message").innerHTML = "";
 }
 
 loadWord();
