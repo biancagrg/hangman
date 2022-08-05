@@ -3,6 +3,7 @@ var word;
 var hiddenWord = document.getElementById("word");
 var hangman = document.getElementById("counter");
 var counter = 0;
+var chosenLetterString = "";
 
 function secretWord() {
   word = wordList.words[Math.floor(Math.random() * wordList.words.length)];
@@ -23,6 +24,9 @@ function revealLetter(correctLetter) {
 function initEvents() {
   document.getElementById("letters").addEventListener("click", function (e) {
     var letterId = e.target.getAttribute("id");
+    document.getElementById(letterId).classList.remove("keyboard");
+    document.getElementById(letterId).classList.add("chosenLetter");
+    chosenLetterString += letterId;
     if (checkLetter(letterId)) {
       revealLetter(letterId);
     } else if (counter < 7) {
@@ -30,6 +34,7 @@ function initEvents() {
     } else {
       counter = 0;
       hiddenWord.innerHTML = "";
+      resetLetters();
       secretWord();
     }
     hangman.innerText = counter;
@@ -58,4 +63,12 @@ function loadWord() {
     });
 }
 
+function resetLetters() {
+  for (var i = 0; i < chosenLetterString.length; i++) {
+    document
+      .getElementById(chosenLetterString[i])
+      .classList.remove("chosenLetter");
+    document.getElementById(chosenLetterString[i]).classList.add("keyboard");
+  }
+}
 loadWord();
