@@ -4,6 +4,7 @@ var hiddenWord = document.getElementById("word");
 var hangman = document.getElementById("counter");
 var counter = 0;
 var chosenLetterString = "";
+var correctLetterCounter = 0;
 
 function secretWord() {
   word = wordList.words[Math.floor(Math.random() * wordList.words.length)];
@@ -29,6 +30,13 @@ function initEvents() {
     chosenLetterString += letterId;
     if (checkLetter(letterId)) {
       revealLetter(letterId);
+      if (correctLetterCounter === word.length) {
+        hiddenWord.innerHTML = "";
+        secretWord();
+        resetLetters();
+        counter = 0;
+        correctLetterCounter = 0;
+      }
     } else if (counter < 7) {
       counter++;
     } else {
@@ -42,12 +50,14 @@ function initEvents() {
 }
 
 function checkLetter(id) {
+  var foundLetter = false;
   for (var i = 0; i < word.length; i++) {
     if (word[i] === id) {
-      return true;
+      correctLetterCounter++;
+      foundLetter = true;
     }
   }
-  return false;
+  return foundLetter;
 }
 
 initEvents();
